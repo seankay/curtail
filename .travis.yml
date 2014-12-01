@@ -1,0 +1,7 @@
+language: erlang
+
+env:
+  - ELIXIR="v1.0.0"
+  - ELIXIR="v1.0.1"
+
+script: mix test
