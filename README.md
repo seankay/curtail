@@ -1,5 +1,6 @@
 Curtail
 =======
+[![Build Status](https://travis-ci.org/seankay/curtail.svg?branch=master)](https://travis-ci.org/seankay/curtail)
 
 HTML tag safe string truncation.
 
