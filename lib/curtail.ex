@@ -57,7 +57,7 @@ defmodule Curtail do
       iex> Curtail.truncate("<p>This should be truncated here<break_here>!!</p>", break_token: "<break_here>")
       "<p>This should be truncated here</p>"
   """
-  def truncate(string, opts \\ @default_opts)
+  def truncate(string, opts \\ %{})
   def truncate(_string, length: length) when length <= 0, do: ""
   def truncate(string, opts) do
     opts = Enum.into(opts, @default_opts)
