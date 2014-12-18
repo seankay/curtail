@@ -3,6 +3,9 @@ defmodule Curtail.Html do
   Helper methods for `Curtail`.
   """
 
+  defstruct open_tags: [],
+            close_tags: []
+
   def tag?(token), do: Regex.match?(~r/<\/?[^>]+>/, token) && !comment?(token)
 
   def open_tag?(token), do: Regex.match?(~r/<(?!(?:br|img|hr|script|\/))[^>]+>/i, token)
