@@ -62,7 +62,7 @@ defmodule Curtail do
     opts = Enum.into(opts, @default_opts)
 
     if opts.word_boundary === true do
-      opts = Map.put(opts, :word_boundary, @default_word_boundary)
+      opts = %{opts | word_boundary: @default_word_boundary}
     end
 
     tokens = Regex.scan(@regex, string)
@@ -111,7 +111,7 @@ defmodule Curtail do
     cond do
       Html.tag?(token) ->
         tags = case Html.open_tag?(token) do
-          true -> Map.put(tags, :open_tags, [token | tags.open_tags])
+          true -> %Html{tags | open_tags: [token | tags.open_tags]}
           false -> remove_latest_open_tag(token, tags)
         end
       !Html.comment?(token) ->
@@ -127,10 +127,10 @@ defmodule Curtail do
     do_truncate(rest, tags, opts, chars_remaining, acc)
   end
 
-  defp remove_latest_open_tag(close_tag, tags = %Html{ open_tags: open_tags }) do
+  defp remove_latest_open_tag(close_tag, tags = %Html{open_tags: open_tags}) do
     case Enum.find_index(open_tags, &(Html.matching_close_tag?(&1, close_tag))) do
       nil -> tags
-      index -> Map.put(tags, :open_tags, List.delete_at(open_tags, index))
+      index -> %Html{tags | open_tags: List.delete_at(open_tags, index)}
     end
   end
 
