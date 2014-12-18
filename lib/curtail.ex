@@ -81,16 +81,20 @@ defmodule Curtail do
   defp do_truncate([_token|_rest], tags, opts, chars_remaining, acc) when chars_remaining <= 0 do
     do_truncate([], tags, opts, 0, acc)
   end
+
   defp do_truncate([token|_rest], tags, opts = %{break_token: break_token}, _, acc)
     when break_token == token do
     finalize_output(acc, tags, opts)
   end
+
   defp do_truncate([], tags, opts, chars_remaining, acc) when chars_remaining > 0 do
     finalize_output(acc, tags, opts)
   end
+
   defp do_truncate([], tags, opts, _, acc) do
     acc |> apply_omission(opts.omission) |> finalize_output(tags, opts)
   end
+
   defp do_truncate([token | rest], tags, opts, chars_remaining, acc) do
     acc = cond do
       Html.tag?(token) || Html.comment?(token) ->
