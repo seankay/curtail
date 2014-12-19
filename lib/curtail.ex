@@ -59,11 +59,7 @@ defmodule Curtail do
   def truncate(string, opts \\ %{})
   def truncate(_string, length: length) when length <= 0, do: ""
   def truncate(string, opts) do
-    opts = Enum.into(opts, @default_opts)
-
-    if opts.word_boundary === true do
-      opts = %{opts | word_boundary: @default_word_boundary}
-    end
+    opts = configure(Enum.into(opts, @default_opts))
 
     tokens = Regex.scan(@regex, string)
               |> List.flatten
@@ -77,6 +73,11 @@ defmodule Curtail do
 
     do_truncate(tokens, %Html{}, opts, chars_remaining, [])
   end
+
+  defp configure(opts = %{ word_boundary: true}) do
+    %{opts | word_boundary: @default_word_boundary}
+  end
+  defp configure(opts), do: opts
 
   defp do_truncate([_token|_rest], tags, opts, chars_remaining, acc) when chars_remaining <= 0 do
     do_truncate([], tags, opts, 0, acc)
@@ -145,6 +146,12 @@ defmodule Curtail do
     List.replace_at(tokens, 0, tokens_with_omission)
   end
 
+  defp apply_word_boundary(output, false), do: output
+  defp apply_word_boundary(output, word_boundary) do
+    {:ok, r } = Regex.compile("^.*#{Regex.source(word_boundary)}")
+    Regex.scan(r, output) |> Enum.at(0, []) |> List.first
+  end
+
   defp finalize_output(tokens, %Html{open_tags: open_tags, close_tags: close_tags}, %{word_boundary: word_boundary}) do
     closing_tags = open_tags
                     |> Enum.map(&Html.matching_close_tag/1)
@@ -152,14 +159,10 @@ defmodule Curtail do
 
     output = (closing_tags ++ tokens) |> Enum.reverse |> Enum.join
 
-    if word_boundary do
-      {:ok, r } = Regex.compile("^.*#{Regex.source(word_boundary)}")
-      match = Regex.scan(r, output) |> Enum.at(0, []) |> List.first
-    end
-
-    cond do
-      match && match != output -> match <> Enum.join(closing_tags)
-      true -> output
+    case apply_word_boundary(output, word_boundary) do
+      nil -> output
+      match when match != output -> match <> Enum.join(closing_tags)
+      _ -> output
     end
   end
 end
