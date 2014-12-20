@@ -8,15 +8,8 @@ defmodule Curtail do
 
   @regex ~r/(?:<script.*>.*<\/script>)+|<\/?[^>]+>|[a-z0-9\|`~!@#\$%^&*\(\)\-_\+=\[\]{}:;'²³§",\.\/?]+|\s+|[[:punct:]]|\X/xiu
 
-  @default_word_boundary ~r/\S/
-  @default_opts %{
-    length: 100,
-    omission: "...",
-    word_boundary: @default_word_boundary,
-    break_token: nil
-  }
-
   alias Curtail.Html
+  alias Curtail.Options
 
   @doc """
   Safely truncates a string that contains HTML tags.
@@ -56,10 +49,10 @@ defmodule Curtail do
       iex> Curtail.truncate("<p>This should be truncated here<break_here>!!</p>", break_token: "<break_here>")
       "<p>This should be truncated here</p>"
   """
-  def truncate(string, opts \\ %{})
+  def truncate(string, opts \\ [])
   def truncate(_string, length: length) when length <= 0, do: ""
   def truncate(string, opts) do
-    opts = configure(Enum.into(opts, @default_opts))
+    opts = Options.new(opts)
 
     tokens = Regex.scan(@regex, string)
               |> List.flatten
@@ -74,16 +67,11 @@ defmodule Curtail do
     do_truncate(tokens, %Html{}, opts, chars_remaining, [])
   end
 
-  defp configure(opts = %{ word_boundary: true}) do
-    %{opts | word_boundary: @default_word_boundary}
-  end
-  defp configure(opts), do: opts
-
   defp do_truncate([_token|_rest], tags, opts, chars_remaining, acc) when chars_remaining <= 0 do
     do_truncate([], tags, opts, 0, acc)
   end
 
-  defp do_truncate([token|_rest], tags, opts = %{break_token: break_token}, _, acc)
+  defp do_truncate([token|_rest], tags, opts = %Options{break_token: break_token}, _, acc)
     when break_token == token do
     finalize_output(acc, tags, opts)
   end
@@ -152,7 +140,7 @@ defmodule Curtail do
     Regex.scan(r, output) |> Enum.at(0, []) |> List.first
   end
 
-  defp finalize_output(tokens, %Html{open_tags: open_tags, close_tags: close_tags}, %{word_boundary: word_boundary}) do
+  defp finalize_output(tokens, %Html{open_tags: open_tags}, %Options{word_boundary: word_boundary}) do
     closing_tags = open_tags
                     |> Enum.map(&Html.matching_close_tag/1)
                     |> Enum.reverse
