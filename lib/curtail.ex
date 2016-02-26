@@ -110,7 +110,8 @@ defmodule Curtail do
           _ ->
             chars_remaining - String.length(token)
         end
-      true -> #noop
+      true ->
+        nil #noop
     end
 
     do_truncate(rest, tags, opts, chars_remaining, acc)
@@ -129,7 +130,7 @@ defmodule Curtail do
     tokens_with_omission = tokens
                             |> List.first
                             |> String.rstrip
-                            |> Kernel.<> omission
+                            |> Kernel.<>(omission)
 
     List.replace_at(tokens, 0, tokens_with_omission)
   end

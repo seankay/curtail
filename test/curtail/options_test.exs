@@ -1,7 +1,6 @@
-defmodule Curtail.HtmlTagTest do
+defmodule Curtail.OptionsTest do
   use ExUnit.Case
 
-  import Curtail.Options
   alias Curtail.Options
 
   test "creating options" do
