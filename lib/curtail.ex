@@ -110,7 +110,8 @@ defmodule Curtail do
           _ ->
             chars_remaining - String.length(token)
         end
-      true -> #noop
+      true ->
+        nil #noop
     end
 
     do_truncate(rest, tags, opts, chars_remaining, acc)
