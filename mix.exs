@@ -20,8 +20,8 @@ defmodule Curtail.Mixfile do
   end
 
   defp deps do
-    [{:earmark, "~> 0.1", only: :dev},
-      {:ex_doc, "~> 0.6", only: :dev}]
+    [{:earmark, "~> 1.0", only: :dev},
+      {:ex_doc, "~> 0.13", only: :dev}]
   end
 
   defp description do
