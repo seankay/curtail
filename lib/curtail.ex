@@ -97,21 +97,22 @@ defmodule Curtail do
         [String.slice(token, 0..chars_remaining - 1) | acc]
     end
 
-    cond do
-      Html.tag?(token) ->
-        tags = case Html.open_tag?(token) do
-          true -> %Html{tags | open_tags: [token | tags.open_tags]}
-          false -> remove_latest_open_tag(token, tags)
-        end
-      !Html.comment?(token) ->
-        chars_remaining = case opts.word_boundary do
-          false ->
-            chars_remaining - (String.slice(token, 0..chars_remaining - 1) |> String.length)
-          _ ->
-            chars_remaining - String.length(token)
-        end
+    tags = cond do
+      !Html.tag?(token) ->
+        tags
+      Html.open_tag?(token) ->
+        %Html{tags | open_tags: [token | tags.open_tags]}
       true ->
-        nil #noop
+        remove_latest_open_tag(token, tags)
+    end
+
+    chars_remaining = cond do
+      Html.tag?(token) || Html.comment?(token) ->
+        chars_remaining
+      opts.word_boundary ->
+        chars_remaining - String.length(token)
+      true ->
+        chars_remaining - (String.slice(token, 0..chars_remaining - 1) |> String.length)
     end
 
     do_truncate(rest, tags, opts, chars_remaining, acc)
