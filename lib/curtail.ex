@@ -46,7 +46,7 @@ defmodule Curtail do
 
   Truncate with custom break_token:
 
-      iex> Curtail.truncate("<p>This should be truncated here<break_here>!!</p>", break_token: "<break_here>")
+      iex> Curtail.truncate("<p>This should be truncated here<break_here>!!</p>", length: 49, break_token: "<break_here>")
       "<p>This should be truncated here</p>"
   """
   def truncate(string, opts \\ [])
@@ -64,7 +64,10 @@ defmodule Curtail do
 
     chars_remaining = opts.length - String.length(opts.omission)
 
-    do_truncate(tokens, %Html{}, opts, chars_remaining, [])
+    case String.length(string) - opts.length do
+      x when x <= 0 -> string
+      _ -> do_truncate(tokens, %Html{}, opts, chars_remaining, [])
+    end
   end
 
   defp do_truncate([_token|_rest], tags, opts, chars_remaining, acc) when chars_remaining <= 0 do

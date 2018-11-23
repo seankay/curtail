@@ -5,11 +5,11 @@ defmodule Curtail.Mixfile do
 
   def project do
     [app: :curtail,
-     version: "0.1.1",
-     elixir: "~> 1.0",
-     description: description,
-     package: package,
-     deps: deps,
+     version: "1.0.0",
+     elixir: "~> 1.4",
+     description: description(),
+     package: package(),
+     deps: deps(),
      name: "Curtail",
      source_url:  @source_url
    ]

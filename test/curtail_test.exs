@@ -54,9 +54,9 @@ defmodule CurtailTest do
 
   test "retains the omission text when word_boundary is false" do
     html = "testtest"
-    result = "testtest.."
+    result = "testt.."
 
-    assert truncate(html, length: 10, omission: "..", word_boundary: false) == result
+    assert truncate(html, length: 7, omission: "..", word_boundary: false) == result
   end
 
   test "handles multibyte characters when word_boundary is false" do
@@ -212,5 +212,10 @@ defmodule CurtailTest do
     string = "<h1>hello <!-- stuff --> and <!-- la --> goodbye</h1>"
     result = "<h1>hello <!-- stuff --> and <!-- la -->...</h1>"
     assert truncate(string, length: 15) == result
+  end
+
+  test "only applies omission when truncation necessary" do
+    string = "no truncation"
+    assert truncate(string, length: String.length(string) + 1) == string
   end
 end
