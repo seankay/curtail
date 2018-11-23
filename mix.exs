@@ -21,7 +21,7 @@ defmodule Curtail.Mixfile do
 
   defp deps do
     [{:earmark, "~> 1.0", only: :dev},
-      {:ex_doc, "~> 0.13", only: :dev}]
+      {:ex_doc, "~> 0.19", only: :dev}]
   end
 
   defp description do
@@ -30,7 +30,7 @@ defmodule Curtail.Mixfile do
 
   defp package do
     [
-      files: ["lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+      files: ["lib", "mix.exs", "README*", "LICENSE*"],
       contributors: ["Sean Kay"],
       licenses: ["Apache 2.0"],
       links: %{"GitHub" => @source_url}
