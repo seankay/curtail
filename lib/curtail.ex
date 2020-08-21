@@ -133,7 +133,7 @@ defmodule Curtail do
   defp apply_omission(tokens, omission) do
     tokens_with_omission = tokens
                             |> List.first
-                            |> String.rstrip
+                            |> String.trim_trailing()
                             |> Kernel.<>(omission)
 
     List.replace_at(tokens, 0, tokens_with_omission)

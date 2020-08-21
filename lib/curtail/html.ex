@@ -13,7 +13,7 @@ defmodule Curtail.Html do
   def comment?(token), do: Regex.match?(~r/(*ANY)<\s?!--.*-->/, token)
 
   def matching_close_tag(token) do
-    Regex.replace(~r/<(\w+)\s?.*>/, token, "</\\1>") |> String.strip
+    Regex.replace(~r/<(\w+)\s?.*>/, token, "</\\1>") |> String.trim()
   end
 
   def matching_close_tag?(open_tag, close_tag) do
