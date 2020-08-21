@@ -5,8 +5,8 @@ defmodule Curtail.Mixfile do
 
   def project do
     [app: :curtail,
-     version: "1.0.0",
-     elixir: "~> 1.4",
+     version: "2.0.0",
+     elixir: ">= 1.3.0",
      description: description(),
      package: package(),
      deps: deps(),
