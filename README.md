@@ -11,7 +11,7 @@ Installation
 
 ```elixir
 def deps do
-  [ {:curtail, "~> 1.0"} ]
+  [ {:curtail, "~> 2.0"} ]
 end
 ```
 
