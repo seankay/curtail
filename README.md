@@ -4,8 +4,6 @@ Curtail
 
 HTML tag safe string truncation.
 
-Port of the [html_truncate](https://github.com/hgmnz/truncate_html) gem.
-
 Installation
 =====
 
