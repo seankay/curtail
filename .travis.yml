@@ -1,43 +1,24 @@
 language: elixir
 
 elixir:
-  - 1.10.4
+  - 1.16.1
+  - 1.17.3-otp-27
+  - 1.18.4-otp-28
 otp_release:
-  - 21.2
-  - 22.3
-  - 23.0
+  - 25.3.2.21
+  - 27.3.4.3
+  - 28.1
 
 dist: bionic
 
 jobs:
   include:
-    - elixir: 1.4.4
-      otp_release: 19.1
+    - elixir: 1.16.1
+      otp_release: 25.3.2.21
       dist: trusty
-    - elixir: 1.4.4
-      otp_release: 19.2
+    - elixir: 1.17.3-otp-27
+      otp_release: 27.3.4.3
       dist: trusty
-    - elixir: 1.5.0
-      otp_release: 19.1
-      dist: trusty
-    - elixir: 1.5.3
-      otp_release: 20.2
-      dist: trusty
-    - elixir: 1.6.0
-      otp_release: 20.2
-      dist: trusty
-    - elixir: 1.6.4
-      otp_release: 20.2
-      dist: trusty
-    - elixir: 1.6.5
-      otp_release: 21.0
-      dist: trusty
-    - elixir: 1.7.0
-      otp_release: 21.0
-      dist: trusty
-    - elixir: 1.7.1
-      otp_release: 21.0
-      dist: trusty
-    - elixir: 1.7.2
-      otp_release: 21.0
+    - elixir: 1.18.4-otp-28
+      otp_release: 28.1
       dist: trusty

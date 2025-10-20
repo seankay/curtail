@@ -87,7 +87,7 @@ defmodule Curtail do
     acc |> apply_omission(opts.omission) |> finalize_output(tags, opts)
   end
 
-  defp do_truncate([token | rest], tags, opts, chars_remaining, acc) do
+  defp do_truncate([token | rest], %Html{} = tags, opts, chars_remaining, acc) do
     acc = cond do
       Html.tag?(token) || Html.comment?(token) ->
         [token | acc]
