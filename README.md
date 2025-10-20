@@ -2,6 +2,8 @@
 
 HTML tag safe string truncation.
 
+[![CI](https://github.com/seankay/curtail/actions/workflows/ci.yml/badge.svg)](https://github.com/seankay/curtail/actions/workflows/ci.yml)
+
 # Installation
 
 ```elixir
