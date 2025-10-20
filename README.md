@@ -8,7 +8,7 @@ HTML tag safe string truncation.
 
 ```elixir
 def deps do
-  [ {:curtail, "~> 2.0"} ]
+  [ {:curtail, "~> 3.0"} ]
 end
 ```
 
