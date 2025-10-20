@@ -1,27 +1,30 @@
-defmodule Curtail.Mixfile do
+defmodule Curtail.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/seankay/curtail"
 
   def project do
-    [app: :curtail,
-     version: "2.0.0",
-     elixir: ">= 1.3.0",
-     description: description(),
-     package: package(),
-     deps: deps(),
-     name: "Curtail",
-     source_url:  @source_url
-   ]
+    [
+      app: :curtail,
+      version: "3.0.0",
+      elixir: ">= 1.16.1",
+      description: description(),
+      package: package(),
+      deps: deps(),
+      name: "Curtail",
+      source_url: @source_url
+    ]
   end
 
   def application do
-    [applications: [:logger]]
+    [extra_applications: [:logger]]
   end
 
   defp deps do
-    [{:earmark, "~> 1.0", only: :dev},
-      {:ex_doc, "~> 0.19", only: :dev}]
+    [
+      {:earmark, "~> 1.0", only: :dev},
+      {:ex_doc, "~> 0.34", only: :dev, runtime: false}
+    ]
   end
 
   defp description do
@@ -32,7 +35,7 @@ defmodule Curtail.Mixfile do
     [
       files: ["lib", "mix.exs", "README*", "LICENSE*"],
       contributors: ["Sean Kay"],
-      licenses: ["Apache 2.0"],
+      licenses: ["MIT"],
       links: %{"GitHub" => @source_url}
     ]
   end
